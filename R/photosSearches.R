@@ -12,7 +12,7 @@ photosSearches <-
     
     text <- gsub(' ', '+', trimws(text))  
     api_key <- auth$key
-    perpage <- "250"
+    perpage <- "500"
     format <- "rest"
     extras <- "date_taken,geo,tags,license,url_sq,url_t,url_s,url_q,url_m,url_n,url_z,url_c,url_l,url_o"
     baseURL <- paste("https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=",api_key,sep="")   #set base URL
@@ -80,7 +80,7 @@ photosSearches <-
       
       error <- tryCatch({
         getPhotos_data <- xmlRoot(xmlTreeParse(content(r, 'text')))
-        error <- 'sucess'
+        error <- 'success'
       }, error = function(err){
         warning('Year ', y, ' month ', m, ' skipped beacuse: ', err)
         error <- 'error'
@@ -150,7 +150,7 @@ photosSearches <-
             
             error <- tryCatch({
               getPhotos_data <- xmlRoot(xmlTreeParse(content(r, 'text'), useInternalNodes = TRUE))
-              error <- 'sucess'
+              error <- 'success'
             }, error = function(err){
               warning('Year ', y, ' month ', m, ' page ', i,' skipped beacuse: ', err)
               error <- 'error'

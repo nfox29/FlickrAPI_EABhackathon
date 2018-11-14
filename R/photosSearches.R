@@ -75,14 +75,14 @@ photosSearches <-
       }
       
       if(r$status_code != 200){
-        warning('Status code:', r$status, ' for year ', y, ' month ', m, ' - message: ', content(r, 'text'))
+        warning('Status code:', r$status, ' for month between ', mindate, ' and ', maxdate, ' - message: ', content(r, 'text'))
       }
       
       error <- tryCatch({
         getPhotos_data <- xmlRoot(xmlTreeParse(content(r, 'text')))
         error <- 'success'
       }, error = function(err){
-        warning('Year ', y, ' month ', m, ' skipped beacuse: ', err)
+        warning('Month between ', mindate, ' and ', maxdate, ' skipped beacuse: ', err)
         error <- 'error'
       })    
       
@@ -145,14 +145,14 @@ photosSearches <-
             }
             
             if(r$status_code != 200){
-              warning('Status code:', r$status, ' for year ', y, ' month ', m, ' page ', i, ' - message: ', content(r, 'text'))
+              warning('Status code:', r$status, ' for month between ', mindate, ' and ', maxdate, ' page ', i, ' - message: ', content(r, 'text'))
             }
             
             error <- tryCatch({
               getPhotos_data <- xmlRoot(xmlTreeParse(content(r, 'text'), useInternalNodes = TRUE))
               error <- 'success'
             }, error = function(err){
-              warning('Year ', y, ' month ', m, ' page ', i,' skipped beacuse: ', err)
+              warning('Month between ', mindate, ' and ', maxdate, ' page ', i,' skipped beacuse: ', err)
               error <- 'error'
             })
             

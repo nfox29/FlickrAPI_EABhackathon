@@ -1,4 +1,4 @@
-user_info <- function(api_key, user_id){
+user_info <- function(api_key = auth$key, user_id){
   
   id_tmp <- NULL
   id_info <-NULL
@@ -34,12 +34,17 @@ user_info <- function(api_key, user_id){
       if(error != 'error'){
         get_id_data <<- get_id_data
         user_id <- listNulltoNA(xpathSApply(get_id_data, "//profile", xmlGetAttr, "id"))
-        country <- listNulltoNA(xpathSApply(get_id_data, "//profile", xmlGetAttr, "country"))
         first_name <- listNulltoNA(xpathSApply(get_id_data, "//profile", xmlGetAttr, "first_name"))
+        last_name <- listNulltoNA(xpathSApply(get_id_data, "//profile", xmlGetAttr, "last_name"))
+        country <- listNulltoNA(xpathSApply(get_id_data, "//profile", xmlGetAttr, "country"))
+        city <- listNulltoNA(xpathSApply(get_id_data, "//profile", xmlGetAttr, "city"))
+        hometown <- listNulltoNA(xpathSApply(get_id_data, "//profile", xmlGetAttr, "hometown"))
+        occupation <- listNulltoNA(xpathSApply(get_id_data, "//profile", xmlGetAttr, "occupation"))
         
-        if(!all(is.na(c(user_id, country, first_name)))){
+      
+        if(!all(is.na(c(user_id, first_name, last_name, country, city, hometown, occupation)))){
           
-          tmp_df <- data.frame(user_id, country, first_name,
+          tmp_df <- data.frame(user_id, first_name, last_name, country, city, hometown, occupation, 
                                stringsAsFactors = FALSE)
           
           id_tmp <- rbind(id_tmp, tmp_df)

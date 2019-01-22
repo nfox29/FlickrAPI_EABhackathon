@@ -1,8 +1,10 @@
-user_info <- function(api_key = auth$key, user_id){
+#you may need to add your own api key, if the one you with the other download doesn't work
+#user_id can be either a single user id number or the colum in pics ie: pics$user_id
+user_info <- function(api_key = auth$key, user_id = NULL){
   
   id_tmp <- NULL
-  id_info <-NULL
- 
+  id_info <- NULL
+  
   if(length(user_id) > 0){
   
     for(i in user_id){
@@ -34,17 +36,38 @@ user_info <- function(api_key = auth$key, user_id){
       if(error != 'error'){
         get_id_data <<- get_id_data
         user_id <- listNulltoNA(xpathSApply(get_id_data, "//profile", xmlGetAttr, "id"))
-        first_name <- listNulltoNA(xpathSApply(get_id_data, "//profile", xmlGetAttr, "first_name"))
-        last_name <- listNulltoNA(xpathSApply(get_id_data, "//profile", xmlGetAttr, "last_name"))
         country <- listNulltoNA(xpathSApply(get_id_data, "//profile", xmlGetAttr, "country"))
         city <- listNulltoNA(xpathSApply(get_id_data, "//profile", xmlGetAttr, "city"))
         hometown <- listNulltoNA(xpathSApply(get_id_data, "//profile", xmlGetAttr, "hometown"))
         occupation <- listNulltoNA(xpathSApply(get_id_data, "//profile", xmlGetAttr, "occupation"))
         
-      
-        if(!all(is.na(c(user_id, first_name, last_name, country, city, hometown, occupation)))){
+       if (typeof(country) != "character"){
+         
+         country <- "NA"
+         
+       }
+        
+        if (typeof(city) != "character"){
           
-          tmp_df <- data.frame(user_id, first_name, last_name, country, city, hometown, occupation, 
+          city <- "NA"
+          
+        }
+        
+        if (typeof(hometown) != "character"){
+          
+          hometown <- "NA"
+          
+        }
+        
+        if (typeof(occupation) != "character"){
+          
+          occupation <- "NA"
+          
+        }
+      
+        if(!all(is.na(c(user_id, country, city, hometown, occupation)))){
+          
+          tmp_df <- data.frame(user_id = user_id, country = country, city = city, hometown = hometown, occupation = occupation, 
                                stringsAsFactors = FALSE)
           
           id_tmp <- rbind(id_tmp, tmp_df)
@@ -57,6 +80,8 @@ user_info <- function(api_key = auth$key, user_id){
     id_info <- rbind(id_info, id_tmp)
     
   }
+  
+  return(id_info)
 }
   
 

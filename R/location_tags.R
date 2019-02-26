@@ -1,4 +1,8 @@
-getLocationTags <- function(api_key = auth$key, woe_id){
+location_tags <- function(api_key = auth$key, woe_id = NULL){
+  
+  if(is.null(woe_id)==TRUE){
+    stop('provide woe_id')
+  }
   
   get_tags <- paste("https://api.flickr.com/services/rest/?method=flickr.places.tagsForPlace&api_key=",api_key,"&woe_id=",woe_id,sep="")
   

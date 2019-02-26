@@ -1,20 +1,5 @@
-#' Get a lookup table of licenses
-#' 
-#' @return a dataframe of license definitions
-#' @export
-#' @name getLicenses
-#' @examples
-#' # run a workflow, using the logistic regression model
-#' \dontrun{
-#'
-#' getLicenses()
-#' 
-#' }
-
-getLicenses <-
+get_licenses <-
   function(){
-    
-    auth$key
     
     baseURL <- paste("https://api.flickr.com/services/rest/?method=flickr.photos.licenses.getInfo&api_key=",api_key,sep="")   #set base URL
     

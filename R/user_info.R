@@ -1,6 +1,8 @@
-#you may need to add your own api key, if the one you with the other download doesn't work
-#user_id can be either a single user id number or the colum in pics ie: pics$user_id
-user_info <- function(api_key = auth$key, user_id = NULL){
+user_info <- function(user_id = NULL){
+  
+  if( is.null(user_id)==TRUE) {
+    stop('provide user id')
+  }
   
   id_tmp <- NULL
   id_info <- NULL

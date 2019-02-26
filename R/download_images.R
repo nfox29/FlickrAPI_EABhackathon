@@ -1,32 +1,5 @@
-#' Download images found using \code{photosSearch}
-#'
-#' Using the data returned from the 
-#' 
-#' @param photoSearch_results A data.frame output from \code{photoSearch}.
-#' @param licenses  Numeric vector, set the licenses you want to download images for. See \code{getLicenses}
-#' @param saveDir Character, the path where images should be saved
-#' @param max_quality Numeric 1-4 giving the maximum quality of image you want to download 1=small, 4=large
-#' @param verbose logical, if TRUE the progeress through images is given
-#' 
-#' @return A vector of all the URLs that where targetted for download
-#' @export
-#' @name downloadImages
-#' @examples
-#' # run a workflow, using the logistic regression model
-#' \dontrun{
-#'
-#' snowmen <- photosSearch(year_range = c(2015, 2016),
-#'                         text = 'snowman',
-#'                         woe_id = 12578048)
-#' downloadImages(snowmen,
-#'                licenses = c(6:10),
-#'                saveDir = tempdir(),
-#'                max_quality = 2)
-#' 
-#' }
-
-downloadImages <-
-  function(photoSearch_results,
+download_images <-
+  function(photo_search_results,
            licenses = 7:10,          
            saveDir = '.',
            max_quality = 2,
@@ -38,7 +11,7 @@ downloadImages <-
     }
     
     # get those that forefill the license requirements
-    toGet <- photoSearch_results[photoSearch_results$license %in% licenses, ]
+    toGet <- photo_search_results[photo_search_results$license %in% licenses, ]
     
     if(nrow(toGet) == 0) stop('No images match these license conditions')
       

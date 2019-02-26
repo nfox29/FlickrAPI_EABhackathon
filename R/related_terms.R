@@ -1,8 +1,12 @@
 #relatedtags
-related_tags <- 
-  function(text){
+related_terms <- 
+  function(term = NULL){
     
-    baseURL <- paste("https://api.flickr.com/services/rest/?method=flickr.tags.getRelated&api_key=",api_key,"&tag=", text,sep="")   
+    if( is.null(term)==TRUE) {
+      stop('provide a term')
+    }
+    
+    baseURL <- paste("https://api.flickr.com/services/rest/?method=flickr.tags.getRelated&api_key=",api_key,"&tag=", term,sep="")   
     r <- GET(baseURL)
     
     count_stat <- 0

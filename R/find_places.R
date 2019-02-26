@@ -1,16 +1,7 @@
-#' Find correct woe_id for photosSearch query
-#' 
-#' @param place Text string describing the place for the query
-#'
-#' @return A dataframe of places incl wo_id to be used in the photosSearch function
-#' @export
-#' @name findPlaces
+find_places <- function(place){
 
-
-findPlaces <- function(place){
-
-newURSltester<-"https://api.flickr.com/services/rest/?method=flickr.places.find&api_key=e921f86f20cf6766440da8a7394890ee"
-query<- place
+newURSltester <- paste("https://api.flickr.com/services/rest/?method=flickr.places.find&api_key=", api_key, sep = "") 
+query <- place
 
 getPhotos <- paste0(newURSltester
                     ,"&query=",query)

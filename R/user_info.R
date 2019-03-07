@@ -13,13 +13,13 @@ user_info <- function(user_id = NULL){
       
       get_info <- paste("https://api.flickr.com/services/rest/?method=flickr.profile.getProfile&api_key=",api_key,"&user_id=",i,sep="")
       
-      r <- GET(get_info)
+      r <- httr::GET(get_info)
       
       count_stat <- 0
       
       while(r$status_code != 200 & count_stat < 3){
         Sys.sleep(0.5)
-        r <- GET(get_info)
+        r <- httr::GET(get_info)
         count_stat <-  count_stat + 1
       }
       
@@ -28,7 +28,7 @@ user_info <- function(user_id = NULL){
       }
       
       error <- tryCatch({
-        get_id_data <- xmlRoot(xmlTreeParse(content(r, 'text'), useInternalNodes = TRUE))
+        get_id_data <- XML::xmlRoot(xmlTreeParse(content(r, 'text'), useInternalNodes = TRUE))
         error <- 'sucess'
       }, error = function(err){
         warning('ID ', i, ' skipped beacuse: ', err)
@@ -37,11 +37,11 @@ user_info <- function(user_id = NULL){
       
       if(error != 'error'){
         get_id_data <<- get_id_data
-        user_id <- listNulltoNA(xpathSApply(get_id_data, "//profile", xmlGetAttr, "id"))
-        country <- listNulltoNA(xpathSApply(get_id_data, "//profile", xmlGetAttr, "country"))
-        city <- listNulltoNA(xpathSApply(get_id_data, "//profile", xmlGetAttr, "city"))
-        hometown <- listNulltoNA(xpathSApply(get_id_data, "//profile", xmlGetAttr, "hometown"))
-        occupation <- listNulltoNA(xpathSApply(get_id_data, "//profile", xmlGetAttr, "occupation"))
+        user_id <- listNulltoNA(XML::xpathSApply(get_id_data, "//profile", XML::xmlGetAttr, "id"))
+        country <- listNulltoNA(XML::xpathSApply(get_id_data, "//profile", XML::xmlGetAttr, "country"))
+        city <- listNulltoNA(XML::xpathSApply(get_id_data, "//profile", XML::xmlGetAttr, "city"))
+        hometown <- listNulltoNA(XML::xpathSApply(get_id_data, "//profile", XML::xmlGetAttr, "hometown"))
+        occupation <- listNulltoNA(XML::xpathSApply(get_id_data, "//profile", XML::xmlGetAttr, "occupation"))
         
        if (typeof(country) != "character"){
          

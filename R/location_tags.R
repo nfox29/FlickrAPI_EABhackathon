@@ -6,13 +6,13 @@ location_tags <- function(api_key = auth$key, woe_id = NULL){
   
   get_tags <- paste("https://api.flickr.com/services/rest/?method=flickr.places.tagsForPlace&api_key=",api_key,"&woe_id=",woe_id,sep="")
   
-  r <- GET(get_tags)
+  r <- httr::GET(get_tags)
   
   count_stat <- 0
   
   while(r$status_code != 200 & count_stat < 3){
     Sys.sleep(0.5)
-    r <- GET(get_info)
+    r <- httr::GET(get_info)
     count_stat <-  count_stat + 1
   }
   
@@ -21,16 +21,16 @@ location_tags <- function(api_key = auth$key, woe_id = NULL){
   }
   
   error <- tryCatch({
-    tag_data <- xmlRoot(xmlTreeParse(content(r, 'text'), useInternalNodes = TRUE))
-    error <- 'sucess'
+    tag_data <- XML::xmlRoot(XML::xmlTreeParse(content(r, 'text'), useInternalNodes = TRUE))
+    error <- 'success'
   }, error = function(err){
     warning('Locatiion ', woe_id, ' skipped beacuse: ', err)
     error <- 'error'
   })
   
   if(error != 'error'){
-    tag <- xpathSApply(doc = tag_data, "//tag", function(n) xmlValue(n[[1]]))
-    count <- listNulltoNA(xpathSApply(tag_data, "//tag", xmlGetAttr, "count"))
+    tag <- XML::xpathSApply(doc = tag_data, "//tag", function(n) XML::xmlValue(n[[1]]))
+    count <- listNulltoNA(XML::xpathSApply(tag_data, "//tag", XML::xmlGetAttr, "count"))
     
     if(!all(is.na(c(tag, count)))){
       
